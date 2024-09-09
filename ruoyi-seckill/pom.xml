@@ -8,7 +8,7 @@
         <version>3.8.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <packaging>jar</packaging>
     <artifactId>ruoyi-seckill</artifactId>
 
     <properties>
@@ -21,10 +21,30 @@
     </description>
 
     <dependencies>
-        <!-- 通用工具-->
+        <!-- 核心模块-->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-system</artifactId>
+            <artifactId>ruoyi-framework</artifactId>
         </dependency>
+
+        <!-- 定时任务-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-quartz</artifactId>
+        </dependency>
+
+        <!-- 代码生成-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-generator</artifactId>
+        </dependency>
+
+        <!-- 中间件模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-middleware</artifactId>
+        </dependency>
+
     </dependencies>
+
 </project>

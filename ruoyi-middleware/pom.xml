@@ -11,11 +11,6 @@
 
     <artifactId>ruoyi-middleware</artifactId>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
-
     <description>
         中间件模块
     </description>
@@ -24,7 +19,7 @@
         <!-- 通用工具-->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-system</artifactId>
+            <artifactId>ruoyi-common</artifactId>
         </dependency>
     </dependencies>
 

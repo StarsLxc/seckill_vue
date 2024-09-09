@@ -161,6 +161,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 定时任务-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-middleware</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 核心模块-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
@@ -187,13 +194,13 @@
 
     <modules>
         <module>ruoyi-admin</module>
+        <module>ruoyi-seckill</module>
         <module>ruoyi-framework</module>
         <module>ruoyi-system</module>
+        <module>ruoyi-middleware</module>
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
-        <module>ruoyi-seckill</module>
-        <module>ruoyi-middleware</module>
     </modules>
     <packaging>pom</packaging>
 
