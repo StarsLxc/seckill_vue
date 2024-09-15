@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.seckill.mapper.SeckillRefundMapper">
+
+    <resultMap type="SeckillRefund" id="SeckillRefundMap">
+        <result property="refundId" column="refund_id" jdbcType="INTEGER"/>
+        <result property="saleId" column="sale_id" jdbcType="INTEGER"/>
+        <result property="refundPrice" column="refund_price" jdbcType="NUMERIC"/>
+        <result property="refundDesc" column="refund_desc" jdbcType="VARCHAR"/>
+        <result property="refundStatus" column="refund_status" jdbcType="VARCHAR"/>
+        <result property="refundTime" column="refund_time" jdbcType="TIMESTAMP"/>
+        <result property="refundType" column="refund_type" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="SeckillRefundMap">
+        select
+          refund_id, sale_id, refund_price, refund_desc, refund_status, refund_time, refund_type, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_refund
+        where refund_id = #{refundId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectList" resultMap="SeckillRefundMap">
+        select
+          refund_id, sale_id, refund_price, refund_desc, refund_status, refund_time, refund_type, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_refund
+        <where>
+            <if test="refundId != null">and refund_id = #{refundId}</if>
+            <if test="saleId != null">and sale_id = #{saleId}</if>
+            <if test="refundPrice != null">and refund_price = #{refundPrice}</if>
+            <if test="refundDesc != null and refundDesc != ''">and refund_desc = #{refundDesc}</if>
+            <if test="refundStatus != null and refundStatus != ''">and refund_status = #{refundStatus}</if>
+            <if test="refundTime != null">and refund_time = #{refundTime}</if>
+            <if test="refundType != null and refundType != ''">and refund_type = #{refundType}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from seckill_refund
+        <where>
+            <if test="refundId != null">and refund_id = #{refundId}</if>
+            <if test="saleId != null">and sale_id = #{saleId}</if>
+            <if test="refundPrice != null">and refund_price = #{refundPrice}</if>
+            <if test="refundDesc != null and refundDesc != ''">and refund_desc = #{refundDesc}</if>
+            <if test="refundStatus != null and refundStatus != ''">and refund_status = #{refundStatus}</if>
+            <if test="refundTime != null">and refund_time = #{refundTime}</if>
+            <if test="refundType != null and refundType != ''">and refund_type = #{refundType}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="refundId" useGeneratedKeys="true">
+        insert into seckill_refund(sale_id, refund_price, refund_desc, refund_status, refund_time, refund_type, create_by, create_time, update_by, update_time, delete_flag)
+        values (#{saleId}, #{refundPrice}, #{refundDesc}, #{refundStatus}, #{refundTime}, #{refundType}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{deleteFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="refundId" useGeneratedKeys="true">
+        insert into seckill_refund(sale_id, refund_price, refund_desc, refund_status, refund_time, refund_type, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.saleId}, #{entity.refundPrice}, #{entity.refundDesc}, #{entity.refundStatus}, #{entity.refundTime}, #{entity.refundType}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="refundId" useGeneratedKeys="true">
+        insert into seckill_refund(sale_id, refund_price, refund_desc, refund_status, refund_time, refund_type, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.saleId}, #{entity.refundPrice}, #{entity.refundDesc}, #{entity.refundStatus}, #{entity.refundTime}, #{entity.refundType}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+        on duplicate key update
+        sale_id = values(sale_id),
+        refund_price = values(refund_price),
+        refund_desc = values(refund_desc),
+        refund_status = values(refund_status),
+        refund_time = values(refund_time),
+        refund_type = values(refund_type),
+        create_by = values(create_by),
+        create_time = values(create_time),
+        update_by = values(update_by),
+        update_time = values(update_time),
+        delete_flag = values(delete_flag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_refund
+        <set>
+            <if test="saleId != null">sale_id = #{saleId},</if>
+            <if test="refundPrice != null">refund_price = #{refundPrice},</if>
+            <if test="refundDesc != null and refundDesc != ''">refund_desc = #{refundDesc},</if>
+            <if test="refundStatus != null and refundStatus != ''">refund_status = #{refundStatus},</if>
+            <if test="refundTime != null">refund_time = #{refundTime},</if>
+            <if test="refundType != null and refundType != ''">refund_type = #{refundType},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </set>
+        where refund_id = #{refundId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_refund where refund_id = #{refundId}
+    </delete>
+
+</mapper>

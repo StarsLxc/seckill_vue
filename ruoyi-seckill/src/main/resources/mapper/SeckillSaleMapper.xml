@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.seckill.mapper.SeckillSaleMapper">
+
+    <resultMap type="SeckillSale" id="SeckillSaleMap">
+        <result property="saleId" column="sale_id" jdbcType="INTEGER"/>
+        <result property="saleSn" column="sale_sn" jdbcType="VARCHAR"/>
+        <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+        <result property="seckillId" column="seckill_id" jdbcType="INTEGER"/>
+        <result property="saleStatus" column="sale_status" jdbcType="VARCHAR"/>
+        <result property="saleTime" column="sale_time" jdbcType="TIMESTAMP"/>
+        <result property="saleAmount" column="sale_amount" jdbcType="NUMERIC"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="SeckillSaleMap">
+        select
+          sale_id, sale_sn, customer_id, seckill_id, sale_status, sale_time, sale_amount, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_sale
+        where sale_id = #{saleId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectList" resultMap="SeckillSaleMap">
+        select
+          sale_id, sale_sn, customer_id, seckill_id, sale_status, sale_time, sale_amount, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_sale
+        <where>
+            <if test="saleId != null">and sale_id = #{saleId}</if>
+            <if test="saleSn != null and saleSn != ''">and sale_sn = #{saleSn}</if>
+            <if test="customerId != null">and customer_id = #{customerId}</if>
+            <if test="seckillId != null">and seckill_id = #{seckillId}</if>
+            <if test="saleStatus != null and saleStatus != ''">and sale_status = #{saleStatus}</if>
+            <if test="saleTime != null">and sale_time = #{saleTime}</if>
+            <if test="saleAmount != null">and sale_amount = #{saleAmount}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from seckill_sale
+        <where>
+            <if test="saleId != null">and sale_id = #{saleId}</if>
+            <if test="saleSn != null and saleSn != ''">and sale_sn = #{saleSn}</if>
+            <if test="customerId != null">and customer_id = #{customerId}</if>
+            <if test="seckillId != null">and seckill_id = #{seckillId}</if>
+            <if test="saleStatus != null and saleStatus != ''">and sale_status = #{saleStatus}</if>
+            <if test="saleTime != null">and sale_time = #{saleTime}</if>
+            <if test="saleAmount != null">and sale_amount = #{saleAmount}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="saleId" useGeneratedKeys="true">
+        insert into seckill_sale(sale_sn, customer_id, seckill_id, sale_status, sale_time, sale_amount, create_by, create_time, update_by, update_time, delete_flag)
+        values (#{saleSn}, #{customerId}, #{seckillId}, #{saleStatus}, #{saleTime}, #{saleAmount}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{deleteFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="saleId" useGeneratedKeys="true">
+        insert into seckill_sale(sale_sn, customer_id, seckill_id, sale_status, sale_time, sale_amount, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.saleSn}, #{entity.customerId}, #{entity.seckillId}, #{entity.saleStatus}, #{entity.saleTime}, #{entity.saleAmount}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="saleId" useGeneratedKeys="true">
+        insert into seckill_sale(sale_sn, customer_id, seckill_id, sale_status, sale_time, sale_amount, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.saleSn}, #{entity.customerId}, #{entity.seckillId}, #{entity.saleStatus}, #{entity.saleTime}, #{entity.saleAmount}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+        on duplicate key update
+        sale_sn = values(sale_sn),
+        customer_id = values(customer_id),
+        seckill_id = values(seckill_id),
+        sale_status = values(sale_status),
+        sale_time = values(sale_time),
+        sale_amount = values(sale_amount),
+        create_by = values(create_by),
+        create_time = values(create_time),
+        update_by = values(update_by),
+        update_time = values(update_time),
+        delete_flag = values(delete_flag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_sale
+        <set>
+            <if test="saleSn != null and saleSn != ''">sale_sn = #{saleSn},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="seckillId != null">seckill_id = #{seckillId},</if>
+            <if test="saleStatus != null and saleStatus != ''">sale_status = #{saleStatus},</if>
+            <if test="saleTime != null">sale_time = #{saleTime},</if>
+            <if test="saleAmount != null">sale_amount = #{saleAmount},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </set>
+        where sale_id = #{saleId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_sale where sale_id = #{saleId}
+    </delete>
+
+</mapper>

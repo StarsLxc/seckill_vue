@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.seckill.mapper.SeckillEventMapper">
+
+    <resultMap type="SeckillEvent" id="SeckillEventMap">
+        <result property="seckillId" column="seckill_id" jdbcType="INTEGER"/>
+        <result property="seckillName" column="seckill_name" jdbcType="VARCHAR"/>
+        <result property="itemId" column="item_id" jdbcType="INTEGER"/>
+        <result property="seckillPrice" column="seckill_price" jdbcType="NUMERIC"/>
+        <result property="seckillStock" column="seckill_stock" jdbcType="INTEGER"/>
+        <result property="seckillPoints" column="seckill_points" jdbcType="INTEGER"/>
+        <result property="seckillStartTime" column="seckill_start_time" jdbcType="TIMESTAMP"/>
+        <result property="seckillEndTime" column="seckill_end_time" jdbcType="TIMESTAMP"/>
+        <result property="seckillStatus" column="seckill_status" jdbcType="VARCHAR"/>
+        <result property="seckillRepeatability" column="seckill_repeatability" jdbcType="VARCHAR"/>
+        <result property="seckillLimitCustomer" column="seckill_limit_customer" jdbcType="INTEGER"/>
+        <result property="seckillLimitIp" column="seckill_limit_ip" jdbcType="INTEGER"/>
+        <result property="seckillLimitSale" column="seckill_limit_sale" jdbcType="INTEGER"/>
+        <result property="seckillDelayTime" column="seckill_delay_time" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="SeckillEventMap">
+        select
+          seckill_id, seckill_name, item_id, seckill_price, seckill_stock, seckill_points, seckill_start_time, seckill_end_time, seckill_status, seckill_repeatability, seckill_limit_customer, seckill_limit_ip, seckill_limit_sale, seckill_delay_time, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_event
+        where seckill_id = #{seckillId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectList" resultMap="SeckillEventMap">
+        select
+          seckill_id, seckill_name, item_id, seckill_price, seckill_stock, seckill_points, seckill_start_time, seckill_end_time, seckill_status, seckill_repeatability, seckill_limit_customer, seckill_limit_ip, seckill_limit_sale, seckill_delay_time, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_event
+        <where>
+            <if test="seckillId != null">and seckill_id = #{seckillId}</if>
+            <if test="seckillName != null and seckillName != ''">and seckill_name = #{seckillName}</if>
+            <if test="itemId != null">and item_id = #{itemId}</if>
+            <if test="seckillPrice != null">and seckill_price = #{seckillPrice}</if>
+            <if test="seckillStock != null">and seckill_stock = #{seckillStock}</if>
+            <if test="seckillPoints != null">and seckill_points = #{seckillPoints}</if>
+            <if test="seckillStartTime != null">and seckill_start_time = #{seckillStartTime}</if>
+            <if test="seckillEndTime != null">and seckill_end_time = #{seckillEndTime}</if>
+            <if test="seckillStatus != null and seckillStatus != ''">and seckill_status = #{seckillStatus}</if>
+            <if test="seckillRepeatability != null and seckillRepeatability != ''">and seckill_repeatability = #{seckillRepeatability}</if>
+            <if test="seckillLimitCustomer != null">and seckill_limit_customer = #{seckillLimitCustomer}</if>
+            <if test="seckillLimitIp != null">and seckill_limit_ip = #{seckillLimitIp}</if>
+            <if test="seckillLimitSale != null">and seckill_limit_sale = #{seckillLimitSale}</if>
+            <if test="seckillDelayTime != null">and seckill_delay_time = #{seckillDelayTime}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from seckill_event
+        <where>
+            <if test="seckillId != null">and seckill_id = #{seckillId}</if>
+            <if test="seckillName != null and seckillName != ''">and seckill_name = #{seckillName}</if>
+            <if test="itemId != null">and item_id = #{itemId}</if>
+            <if test="seckillPrice != null">and seckill_price = #{seckillPrice}</if>
+            <if test="seckillStock != null">and seckill_stock = #{seckillStock}</if>
+            <if test="seckillPoints != null">and seckill_points = #{seckillPoints}</if>
+            <if test="seckillStartTime != null">and seckill_start_time = #{seckillStartTime}</if>
+            <if test="seckillEndTime != null">and seckill_end_time = #{seckillEndTime}</if>
+            <if test="seckillStatus != null and seckillStatus != ''">and seckill_status = #{seckillStatus}</if>
+            <if test="seckillRepeatability != null and seckillRepeatability != ''">and seckill_repeatability = #{seckillRepeatability}</if>
+            <if test="seckillLimitCustomer != null">and seckill_limit_customer = #{seckillLimitCustomer}</if>
+            <if test="seckillLimitIp != null">and seckill_limit_ip = #{seckillLimitIp}</if>
+            <if test="seckillLimitSale != null">and seckill_limit_sale = #{seckillLimitSale}</if>
+            <if test="seckillDelayTime != null">and seckill_delay_time = #{seckillDelayTime}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="seckillId" useGeneratedKeys="true">
+        insert into seckill_event(seckill_name, item_id, seckill_price, seckill_stock, seckill_points, seckill_start_time, seckill_end_time, seckill_status, seckill_repeatability, seckill_limit_customer, seckill_limit_ip, seckill_limit_sale, seckill_delay_time, create_by, create_time, update_by, update_time, delete_flag)
+        values (#{seckillName}, #{itemId}, #{seckillPrice}, #{seckillStock}, #{seckillPoints}, #{seckillStartTime}, #{seckillEndTime}, #{seckillStatus}, #{seckillRepeatability}, #{seckillLimitCustomer}, #{seckillLimitIp}, #{seckillLimitSale}, #{seckillDelayTime}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{deleteFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="seckillId" useGeneratedKeys="true">
+        insert into seckill_event(seckill_name, item_id, seckill_price, seckill_stock, seckill_points, seckill_start_time, seckill_end_time, seckill_status, seckill_repeatability, seckill_limit_customer, seckill_limit_ip, seckill_limit_sale, seckill_delay_time, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.seckillName}, #{entity.itemId}, #{entity.seckillPrice}, #{entity.seckillStock}, #{entity.seckillPoints}, #{entity.seckillStartTime}, #{entity.seckillEndTime}, #{entity.seckillStatus}, #{entity.seckillRepeatability}, #{entity.seckillLimitCustomer}, #{entity.seckillLimitIp}, #{entity.seckillLimitSale}, #{entity.seckillDelayTime}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="seckillId" useGeneratedKeys="true">
+        insert into seckill_event(seckill_name, item_id, seckill_price, seckill_stock, seckill_points, seckill_start_time, seckill_end_time, seckill_status, seckill_repeatability, seckill_limit_customer, seckill_limit_ip, seckill_limit_sale, seckill_delay_time, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.seckillName}, #{entity.itemId}, #{entity.seckillPrice}, #{entity.seckillStock}, #{entity.seckillPoints}, #{entity.seckillStartTime}, #{entity.seckillEndTime}, #{entity.seckillStatus}, #{entity.seckillRepeatability}, #{entity.seckillLimitCustomer}, #{entity.seckillLimitIp}, #{entity.seckillLimitSale}, #{entity.seckillDelayTime}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+        on duplicate key update
+        seckill_name = values(seckill_name),
+        item_id = values(item_id),
+        seckill_price = values(seckill_price),
+        seckill_stock = values(seckill_stock),
+        seckill_points = values(seckill_points),
+        seckill_start_time = values(seckill_start_time),
+        seckill_end_time = values(seckill_end_time),
+        seckill_status = values(seckill_status),
+        seckill_repeatability = values(seckill_repeatability),
+        seckill_limit_customer = values(seckill_limit_customer),
+        seckill_limit_ip = values(seckill_limit_ip),
+        seckill_limit_sale = values(seckill_limit_sale),
+        seckill_delay_time = values(seckill_delay_time),
+        create_by = values(create_by),
+        create_time = values(create_time),
+        update_by = values(update_by),
+        update_time = values(update_time),
+        delete_flag = values(delete_flag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_event
+        <set>
+            <if test="seckillName != null and seckillName != ''">seckill_name = #{seckillName},</if>
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="seckillPrice != null">seckill_price = #{seckillPrice},</if>
+            <if test="seckillStock != null">seckill_stock = #{seckillStock},</if>
+            <if test="seckillPoints != null">seckill_points = #{seckillPoints},</if>
+            <if test="seckillStartTime != null">seckill_start_time = #{seckillStartTime},</if>
+            <if test="seckillEndTime != null">seckill_end_time = #{seckillEndTime},</if>
+            <if test="seckillStatus != null and seckillStatus != ''">seckill_status = #{seckillStatus},</if>
+            <if test="seckillRepeatability != null and seckillRepeatability != ''">seckill_repeatability = #{seckillRepeatability},</if>
+            <if test="seckillLimitCustomer != null">seckill_limit_customer = #{seckillLimitCustomer},</if>
+            <if test="seckillLimitIp != null">seckill_limit_ip = #{seckillLimitIp},</if>
+            <if test="seckillLimitSale != null">seckill_limit_sale = #{seckillLimitSale},</if>
+            <if test="seckillDelayTime != null">seckill_delay_time = #{seckillDelayTime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </set>
+        where seckill_id = #{seckillId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_event where seckill_id = #{seckillId}
+    </delete>
+
+</mapper>

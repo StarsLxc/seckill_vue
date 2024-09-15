@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.seckill.mapper.SeckillPaymentMapper">
+
+    <resultMap type="SeckillPayment" id="SeckillPaymentMap">
+        <result property="paymentId" column="payment_id" jdbcType="INTEGER"/>
+        <result property="saleId" column="sale_id" jdbcType="INTEGER"/>
+        <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+        <result property="paymentAmount" column="payment_amount" jdbcType="NUMERIC"/>
+        <result property="paymentStatus" column="payment_status" jdbcType="VARCHAR"/>
+        <result property="paymentTime" column="payment_time" jdbcType="TIMESTAMP"/>
+        <result property="paymentType" column="payment_type" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="SeckillPaymentMap">
+        select
+          payment_id, sale_id, customer_id, payment_amount, payment_status, payment_time, payment_type, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_payment
+        where payment_id = #{paymentId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectList" resultMap="SeckillPaymentMap">
+        select
+          payment_id, sale_id, customer_id, payment_amount, payment_status, payment_time, payment_type, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_payment
+        <where>
+            <if test="paymentId != null">and payment_id = #{paymentId}</if>
+            <if test="saleId != null">and sale_id = #{saleId}</if>
+            <if test="customerId != null">and customer_id = #{customerId}</if>
+            <if test="paymentAmount != null">and payment_amount = #{paymentAmount}</if>
+            <if test="paymentStatus != null and paymentStatus != ''">and payment_status = #{paymentStatus}</if>
+            <if test="paymentTime != null">and payment_time = #{paymentTime}</if>
+            <if test="paymentType != null and paymentType != ''">and payment_type = #{paymentType}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from seckill_payment
+        <where>
+            <if test="paymentId != null">and payment_id = #{paymentId}</if>
+            <if test="saleId != null">and sale_id = #{saleId}</if>
+            <if test="customerId != null">and customer_id = #{customerId}</if>
+            <if test="paymentAmount != null">and payment_amount = #{paymentAmount}</if>
+            <if test="paymentStatus != null and paymentStatus != ''">and payment_status = #{paymentStatus}</if>
+            <if test="paymentTime != null">and payment_time = #{paymentTime}</if>
+            <if test="paymentType != null and paymentType != ''">and payment_type = #{paymentType}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="paymentId" useGeneratedKeys="true">
+        insert into seckill_payment(sale_id, customer_id, payment_amount, payment_status, payment_time, payment_type, create_by, create_time, update_by, update_time, delete_flag)
+        values (#{saleId}, #{customerId}, #{paymentAmount}, #{paymentStatus}, #{paymentTime}, #{paymentType}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{deleteFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="paymentId" useGeneratedKeys="true">
+        insert into seckill_payment(sale_id, customer_id, payment_amount, payment_status, payment_time, payment_type, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.saleId}, #{entity.customerId}, #{entity.paymentAmount}, #{entity.paymentStatus}, #{entity.paymentTime}, #{entity.paymentType}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="paymentId" useGeneratedKeys="true">
+        insert into seckill_payment(sale_id, customer_id, payment_amount, payment_status, payment_time, payment_type, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.saleId}, #{entity.customerId}, #{entity.paymentAmount}, #{entity.paymentStatus}, #{entity.paymentTime}, #{entity.paymentType}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+        on duplicate key update
+        sale_id = values(sale_id),
+        customer_id = values(customer_id),
+        payment_amount = values(payment_amount),
+        payment_status = values(payment_status),
+        payment_time = values(payment_time),
+        payment_type = values(payment_type),
+        create_by = values(create_by),
+        create_time = values(create_time),
+        update_by = values(update_by),
+        update_time = values(update_time),
+        delete_flag = values(delete_flag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_payment
+        <set>
+            <if test="saleId != null">sale_id = #{saleId},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="paymentAmount != null">payment_amount = #{paymentAmount},</if>
+            <if test="paymentStatus != null and paymentStatus != ''">payment_status = #{paymentStatus},</if>
+            <if test="paymentTime != null">payment_time = #{paymentTime},</if>
+            <if test="paymentType != null and paymentType != ''">payment_type = #{paymentType},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </set>
+        where payment_id = #{paymentId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_payment where payment_id = #{paymentId}
+    </delete>
+
+</mapper>

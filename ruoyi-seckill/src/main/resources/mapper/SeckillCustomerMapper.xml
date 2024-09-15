@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.seckill.mapper.SeckillCustomerMapper">
+
+    <resultMap type="SeckillCustomer" id="SeckillCustomerMap">
+        <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="customerPhone" column="customer_phone" jdbcType="VARCHAR"/>
+        <result property="customerEmail" column="customer_email" jdbcType="VARCHAR"/>
+        <result property="customerPoints" column="customer_points" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" resultMap="SeckillCustomerMap">
+        select
+          customer_id, user_id, customer_name, customer_phone, customer_email, customer_points, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_customer
+        where customer_id = #{customerId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectList" resultMap="SeckillCustomerMap">
+        select
+          customer_id, user_id, customer_name, customer_phone, customer_email, customer_points, create_by, create_time, update_by, update_time, delete_flag
+        from seckill_customer
+        <where>
+            <if test="customerId != null">and customer_id = #{customerId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="customerName != null and customerName != ''">and customer_name = #{customerName}</if>
+            <if test="customerPhone != null and customerPhone != ''">and customer_phone = #{customerPhone}</if>
+            <if test="customerEmail != null and customerEmail != ''">and customer_email = #{customerEmail}</if>
+            <if test="customerPoints != null">and customer_points = #{customerPoints}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from seckill_customer
+        <where>
+            <if test="customerId != null">and customer_id = #{customerId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="customerName != null and customerName != ''">and customer_name = #{customerName}</if>
+            <if test="customerPhone != null and customerPhone != ''">and customer_phone = #{customerPhone}</if>
+            <if test="customerEmail != null and customerEmail != ''">and customer_email = #{customerEmail}</if>
+            <if test="customerPoints != null">and customer_points = #{customerPoints}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="createTime != null">and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="customerId" useGeneratedKeys="true">
+        insert into seckill_customer(user_id, customer_name, customer_phone, customer_email, customer_points, create_by, create_time, update_by, update_time, delete_flag)
+        values (#{userId}, #{customerName}, #{customerPhone}, #{customerEmail}, #{customerPoints}, #{createBy}, #{createTime}, #{updateBy}, #{updateTime}, #{deleteFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="customerId" useGeneratedKeys="true">
+        insert into seckill_customer(user_id, customer_name, customer_phone, customer_email, customer_points, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.userId}, #{entity.customerName}, #{entity.customerPhone}, #{entity.customerEmail}, #{entity.customerPoints}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="customerId" useGeneratedKeys="true">
+        insert into seckill_customer(user_id, customer_name, customer_phone, customer_email, customer_points, create_by, create_time, update_by, update_time, delete_flag)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.customerName}, #{entity.customerPhone}, #{entity.customerEmail}, #{entity.customerPoints}, #{entity.createBy}, #{entity.createTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.deleteFlag})
+        </foreach>
+        on duplicate key update
+        user_id = values(user_id),
+        customer_name = values(customer_name),
+        customer_phone = values(customer_phone),
+        customer_email = values(customer_email),
+        customer_points = values(customer_points),
+        create_by = values(create_by),
+        create_time = values(create_time),
+        update_by = values(update_by),
+        update_time = values(update_time),
+        delete_flag = values(delete_flag)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update seckill_customer
+        <set>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="customerName != null and customerName != ''">customer_name = #{customerName},</if>
+            <if test="customerPhone != null and customerPhone != ''">customer_phone = #{customerPhone},</if>
+            <if test="customerEmail != null and customerEmail != ''">customer_email = #{customerEmail},</if>
+            <if test="customerPoints != null">customer_points = #{customerPoints},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </set>
+        where customer_id = #{customerId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from seckill_customer where customer_id = #{customerId}
+    </delete>
+
+</mapper>
